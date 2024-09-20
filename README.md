@@ -6,7 +6,8 @@
 
 ## Prerequisites
 
-- [CARLA](https://github.com/carla-simulator/carla) 9.14+ installed. * If using Windows, you will only be able to install digital twin on the source version of CARLA.
+- [CARLA](https://github.com/carla-simulator/carla) 9.14+ installed.
+  - If using Windows, you will only be able to install digital twin on the source version of CARLA.
 
 ## Installation Steps
 ### Source Version of CARLA
