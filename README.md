@@ -30,6 +30,6 @@ Paste the following lines at the bottom of the `CarlaUE4/Config/DefaultGame.ini`
 Launch your packaged version of CARLA and run the `scripts/load_mcity_digital_twin.py` script inside your CARLA python environment and enjoy!
 
 ## Acknowledgments
-* [Quantum Signal AI](https://quantumsignalai.com/)
 * [National Science Foundation](https://www.nsf.gov/)
+* [Quantum Signal AI](https://quantumsignalai.com/)
 * [CARLA](https://github.com/carla-simulator/carla) 
