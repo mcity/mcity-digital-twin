@@ -13,7 +13,7 @@
 - CARLA installed. * If using Windows, you will only be able to install digital twin on the source version of CARLA.
 - Python 3+ enviornment to use CARLA API.
 
-## Instalation Steps
+## Installation Steps
 ### Source Version of CARLA
 Copy the McityMap folder inside the `source_version` folder and paste it in this location of your source version of CARLA `Unreal/CarlaUE4/Content/`.
 
