@@ -32,3 +32,4 @@ Launch your packaged version of CARLA and run the `scripts/load_mcity_digital_tw
 ## Acknowledgments
 * [Quantum Signal AI](https://quantumsignalai.com/)
 * [National Science Foundation](https://www.nsf.gov/)
+* [CARLA](https://github.com/carla-simulator/carla) 
