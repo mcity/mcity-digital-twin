@@ -1,17 +1,12 @@
-<div align="center">
-  <a href="https://mcity.umich.edu/">
-    <!--     ![mcity_logo](https://github.com/user-attachments/assets/fab191e1-1047-488e-bd36-9298c67a6236) -->
-    <img style="max-width=50% !important;" src="https://github.com/user-attachments/assets/fab191e1-1047-488e-bd36-9298c67a6236">
-  </a>
-</div>
+![image](https://github.com/user-attachments/assets/d8dc2a24-c071-4121-9ca5-f73e33d36e04)
+
 <h1 align="center">
   Mcity Digital Twin
 </h1>
 
-## Prerequirements
+## Prerequisites
 
-- CARLA installed. * If using Windows, you will only be able to install digital twin on the source version of CARLA.
-- Python 3+ enviornment to use CARLA API.
+- [CARLA](https://github.com/carla-simulator/carla) 9.14+ installed. * If using Windows, you will only be able to install digital twin on the source version of CARLA.
 
 ## Installation Steps
 ### Source Version of CARLA
@@ -31,4 +26,4 @@ Paste the following lines at the bottom of the `CarlaUE4/Config/DefaultGame.ini`
 +DirectoriesToAlwaysStageAsUFS=(Path="McityMap/Nav")
 ```
 
-Launch your packaged version of CARLA and run the `scritps/load_mcity_digital_twin.py` script inside your CARLA python enviornment and enjoy!
+Launch your packaged version of CARLA and run the `scripts/load_mcity_digital_twin.py` script inside your CARLA python environment and enjoy!
