@@ -1,4 +1,5 @@
-![image](https://github.com/user-attachments/assets/d8dc2a24-c071-4121-9ca5-f73e33d36e04)
+![image](https://github.com/user-attachments/assets/42c974c7-7ecf-4a76-ac75-044aef582ab1)
+
 
 <h1 align="center">
   Mcity Digital Twin
