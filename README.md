@@ -3,6 +3,7 @@
 <h1 align="center">
   Mcity Digital Twin
 </h1>
+<p>Version: 1.4.0</p>
 
 ## Prerequisites
 
