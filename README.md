@@ -5,6 +5,8 @@
   Mcity Digital Twin
 </h1>
 
+Version 1.6.1
+
 
 This Digital Twin was developed for the University of Michigan’s Mcity testing facility in order to aid in academic research and the development of transportation technology.
 
