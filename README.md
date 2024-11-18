@@ -1,11 +1,15 @@
-![image](https://github.com/user-attachments/assets/42c974c7-7ecf-4a76-ac75-044aef582ab1)
-
-
 <h1 align="center">
   Mcity Digital Twin
 </h1>
-
 Version 1.6.1
+
+![image](https://github.com/user-attachments/assets/42c974c7-7ecf-4a76-ac75-044aef582ab1)
+
+### Flythrough
+https://github.com/user-attachments/assets/cea420c1-6b66-40e1-bddf-6a5a55461f54
+
+
+
 
 
 This digital twin was developed for the University of Michigan’s Mcity Test Facility to support academic research and the development of transportation technology.
