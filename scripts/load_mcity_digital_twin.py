@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:91cd8d42948ac90087a118d4a88d5a06c179c3154aec0397b5365e15b1ffa1f8
-size 602
+#!/usr/bin/env python
+from __future__ import print_function
+import glob
+import os
+import sys
+try:
+    sys.path.append(
+        glob.glob(
+            "../carla/dist/carla-*%d.%d-%s.egg"
+            % (
+                sys.version_info.major,
+                sys.version_info.minor,
+                "win-amd64" if os.name == "nt" else "linux-x86_64",
+            )
+        )[0]
+    )
+except IndexError:
+    pass
+import carla
+client = carla.Client("localhost", 2000)
+client.set_timeout(5.0)
+world = client.load_world("McityMap_Main")
+print("Welcome To Mcity!")
