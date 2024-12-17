@@ -12,7 +12,7 @@ https://github.com/user-attachments/assets/cea420c1-6b66-40e1-bddf-6a5a55461f54
 
 
 
-This digital twin was developed for the University of Michigan’s Mcity Test Facility to support academic research and the development of transportation technology.
+This digital twin was developed for the University of Michigan’s [Mcity Test Facility](https://mcity.umich.edu/what-we-do/mcity-test-facility/) to support research and development of transportation technology, both academic and commercial. It may be used freely, under the MIT License. To leverage the full set of digital twin capabilities, including live integration with the Mcity Test Facility, please see the [Mcity 2.0](https://mcity.umich.edu/mcity-2-0/) initiative, funded by the National Science Foundation.
 
 https://mcity.umich.edu/
 
