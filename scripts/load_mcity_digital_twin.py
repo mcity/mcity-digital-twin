@@ -1,8 +1,12 @@
 #!/usr/bin/env python
+
 from __future__ import print_function
+
+
 import glob
 import os
 import sys
+
 try:
     sys.path.append(
         glob.glob(
@@ -16,8 +20,13 @@ try:
     )
 except IndexError:
     pass
+
+
 import carla
+
+
 client = carla.Client("localhost", 2000)
-client.set_timeout(5.0)
+
 world = client.load_world("McityMap_Main")
+
 print("Welcome To Mcity!")
