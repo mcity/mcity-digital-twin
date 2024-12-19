@@ -20,9 +20,22 @@ https://mcity.umich.edu/
 * Unreal 4.26
 * CARLA 0.9.12+
 * Ubuntu 20+ or Windows 10+
+* [Git LFS](https://git-lfs.com/)
 
 
 ## INSTALLATION INSTRUCTIONS
+In order to download the files properly, you will need to have [Git LFS](https://git-lfs.com/) installed.
+Once installed, you can run the following commands to clone or pull the available content.
+
+Download the content for the first time.
+```
+git lfs clone https://github.com/mcity/mcity-digital-twin.git
+```
+
+Pull in new content.
+```
+git lfs pull
+```
 
 ### Source Version of CARLA
 Copy the `McityMap` folder inside the `source_version` folder and paste it in this location of your source version of CARLA `Unreal/CarlaUE4/Content/`.
