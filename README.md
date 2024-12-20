@@ -44,7 +44,7 @@ Launch your source version of CARLA and navigate to `Content/McityMap`. Open up 
 ![image](https://github.com/user-attachments/assets/31943806-56c8-43bb-9efc-12c8731f056f)
 <br>
 ### Packaged Version of CARLA
-Copy the `McityMap` folder inside the `packaged_version/windows` or `packaged_version/linux` directory and paste it in this location of your packaged version of CARLA: `CarlaUE4/Content`. 
+Create an `McityMap` folder inside your packaged version of CARLA at this location `CarlaUE4/Content`. Then copy the contents inside of the `packaged_version/windows` or `packaged_version/linux` directory and paste it here: `CarlaUE4/Content/McityMap`. 
 
 Paste the following lines at the bottom of the `CarlaUE4/Config/DefaultGame.ini` file under the `[/Script/UnrealEd.ProjectPackagingSettings]` section.
 
