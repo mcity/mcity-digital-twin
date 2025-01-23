@@ -24,9 +24,12 @@ except IndexError:
 
 import carla
 
-
 client = carla.Client("localhost", 2000)
 
-world = client.load_world("McityMap_Main")
+client.set_timeout(30.0)
 
-print("Welcome To Mcity!")
+try:
+    world = client.load_world("McityMap_Main")
+    print("Welcome To Mcity!")
+except RuntimeError as e:
+    print(f"Error: {e}")
