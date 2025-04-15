@@ -89,7 +89,8 @@ Below is an example dataset from the Mcity Test Facility. It includes 6 [Triton 
 
 Example Dataset: https://drive.google.com/drive/folders/1N4zK63B4GQT-LRQyEyrU_KwLh4ULf2Uu?usp=drive_link
 
-![image](https://github.com/user-attachments/assets/9d2de25b-2a8b-4929-9d5a-ddecfd03d853)
+<img width="1470" alt="image" src="https://github.com/user-attachments/assets/337895ee-a61c-46dd-bcf2-97477f4e3fbf" />
+
 
 
 ### CONTENT SOURCE NOTES
