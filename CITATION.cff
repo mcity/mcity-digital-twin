@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use the Mcity Digital Twin or the datasets in your research, please cite it as below."
+title: "Mcity Digital Twin"
+version: "1.6.1"
+date-released: 2024-12-17
+authors:
+  - name: Mcity
+    affiliation: University of Michigan
+url: https://github.com/mcity/mcity-digital-twin
+license: MIT
