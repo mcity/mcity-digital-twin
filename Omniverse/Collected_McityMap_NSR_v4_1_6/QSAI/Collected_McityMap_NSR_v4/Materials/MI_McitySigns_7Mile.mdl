@@ -1,0 +1,80 @@
+mdl 1.6;
+
+import ::math::*;
+import ::state::*;
+import ::tex::*;
+import ::anno::*;
+import ::scene::*;
+using ..::OmniUe4Function import *;
+using ..::OmniUe4Base import *;
+
+export annotation sampler_color();
+export annotation sampler_normal();
+export annotation sampler_grayscale();
+export annotation sampler_alpha();
+export annotation sampler_masks();
+export annotation sampler_distancefield();
+export annotation dither_masked_off();
+export annotation world_space_normal();
+
+export material MI_McitySigns_7Mile(
+	uniform texture_2d BaseColorMap = texture_2d("./Textures/T_TestPattern_BWGrayChecker.png",::tex::gamma_srgb)
+	[[
+		anno::display_name("Base Color Map"),
+		anno::ui_order(5),
+		anno::in_group("01 Sign Texture Controls"),
+		sampler_color()
+	]],
+	float Metallic = 0.5
+	[[
+		anno::display_name("Metallic"),
+		anno::ui_order(32)
+	]],
+	float4 Roughness = float4(0.25,0.25,0.25,1.0)
+	[[
+		anno::display_name("Roughness"),
+		anno::ui_order(32)
+	]],
+	float HexSize = 0.0
+	[[
+		anno::display_name("Hex Size"),
+		anno::ui_order(32)
+	]],
+	int MaxTexCoordIndex = 3
+	[[
+		anno::hidden()
+	]])
+ = 
+	let {
+	float3 WorldPositionOffset_mdl = float3(0.0,0.0,0.0);
+	float2 CustomizedUV0_mdl = float2(state::texture_coordinate(math::min(0,MaxTexCoordIndex)).x,1.0-state::texture_coordinate(math::min(0,MaxTexCoordIndex)).y);
+
+
+	float3 Normal_mdl = float3(0.0,0.0,1.0);
+
+	float4 Local0 = tex::lookup_float4(BaseColorMap,float2(CustomizedUV0_mdl.x,1.0-CustomizedUV0_mdl.y),tex::wrap_repeat,tex::wrap_repeat);
+	float2 Local1 = (CustomizedUV0_mdl * float2(30.0,26.0));
+	float2 Local2 = (CustomizedUV0_mdl * HexSize);
+	float2 Local3 = (Local1 + Local2);
+	float4 Local4 = tex::lookup_float4(texture_2d("./Textures/T_RoadSignHex_BC.png",::tex::gamma_srgb),float2(Local3.x,1.0-Local3.y),tex::wrap_repeat,tex::wrap_repeat);
+	float3 Local5 = math::lerp(float3(Roughness.x,Roughness.y,Roughness.z),float3(1.0,1.0,1.0),float3(Local4.x,Local4.y,Local4.z));
+
+	float3 EmissiveColor_mdl = float3(0.0,0.0,0.0);
+	float OpacityMask_mdl = 1.0;
+	float3 BaseColor_mdl = float3(Local0.x,Local0.y,Local0.z);
+	float Metallic_mdl = Metallic;
+	float Specular_mdl = 0.5;
+	float Roughness_mdl = Local5.x;
+	float SurfaceThickness_mdl = 0.01;
+
+	} in
+		::OmniUe4Base(
+			base_color: BaseColor_mdl,
+			metallic: Metallic_mdl,
+			roughness: Roughness_mdl,
+			specular: Specular_mdl,
+			normal: Normal_mdl,
+			opacity: OpacityMask_mdl,
+			emissive_color: EmissiveColor_mdl,
+			displacement: WorldPositionOffset_mdl,
+			two_sided: false);

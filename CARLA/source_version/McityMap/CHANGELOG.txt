@@ -1,0 +1,30 @@
+McityMap 1.6.0
+October 31st, 2024
+
+First official open-source release of McityMap content, for use with UE4Carla 0.9.15. 
+
+Release Contents:
+
+This package DOES NOT include any CARLA or Unreal code or executeables, only content that can be loaded into an existing CarlaUE4 build.
+
+* McityMap_1_6_0.uasset
+	* Dummy material used purely to quickly show the current release version.
+* McityMap_Main.umap
+	* Main map that contains all props, materials, textures, blueprints, and sublevels.
+* Blueprints
+	* Contains custom traffic light blueprints based on CARLA's original blueprints, but use custom meshes.
+* OpenDrive
+	* McityMap_Main.xodr contains the current OpenDrive file provided and maintained by Mcity. 
+	* xodr.text contains the current version of the OpenDrive (.xodr) file.
+* Static
+	* Contains all meshes, materials, and textures, for both dynamic and static assets. 
+	* Structure is based on CARLA documentation for use with their semantic segmentation sensors.
+* Sublevels
+	* CarlaEnvLighting (dynamic)
+	* CarlaSigns (dynamic)
+	* CarlaTrafficLights (dynamic)
+	* McityMap_OpenDrive (dynamic)
+	* McityMap_StaticProps (static)
+	* McityMap_StaticTrafficLights (static)
+	* McityMap_StreetLights (static, hidden)
+	* McityMap_Terrain (static)

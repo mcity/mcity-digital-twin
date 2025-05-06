@@ -1,0 +1,77 @@
+mdl 1.6;
+
+import ::math::*;
+import ::state::*;
+import ::tex::*;
+import ::anno::*;
+import ::scene::*;
+using ..::OmniUe4Function import *;
+using ..::OmniUe4Base import *;
+
+export annotation sampler_color();
+export annotation sampler_normal();
+export annotation sampler_grayscale();
+export annotation sampler_alpha();
+export annotation sampler_masks();
+export annotation sampler_distancefield();
+export annotation dither_masked_off();
+export annotation world_space_normal();
+
+export material WorldGridMaterial(
+	int MaxTexCoordIndex = 3
+	[[
+		anno::hidden()
+	]])
+ = 
+	let {
+	float3 WorldPositionOffset_mdl = float3(0.0,0.0,0.0);
+	float2 CustomizedUV0_mdl = float2(state::texture_coordinate(math::min(0,MaxTexCoordIndex)).x,1.0-state::texture_coordinate(math::min(0,MaxTexCoordIndex)).y);
+
+	float2 Local0 = (CustomizedUV0_mdl / 2.0);
+	float2 Local1 = (Local0 / 0.05);
+	float4 Local2 = ::unpack_normal_map(tex::lookup_float4(texture_2d("./Textures/T_Default_Material_Grid_N.png",::tex::gamma_linear),float2(Local1.x,1.0-Local1.y),tex::wrap_repeat,tex::wrap_repeat));
+	float3 Local3 = (float3(Local2.x,Local2.y,Local2.z) * float3(0.3,0.3,1.0));
+
+	float3 Normal_mdl = Local3;
+
+	float2 Local4 = (CustomizedUV0_mdl * 20.0);
+	float4 Local5 = tex::lookup_float4(texture_2d("./Textures/T_Default_Material_Grid_M.png",::tex::gamma_linear),float2(Local4.x,1.0-Local4.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local6 = math::lerp(0.4,1.0,Local5.x);
+	float Local7 = (1.0 - Local6);
+	float2 Local8 = (Local0 / 0.1);
+	float4 Local9 = tex::lookup_float4(texture_2d("./Textures/T_Default_Material_Grid_M.png",::tex::gamma_linear),float2(Local8.x,1.0-Local8.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local10 = math::lerp(Local9.y,1.0,0.0);
+	float Local11 = math::lerp(Local6,Local7,Local10);
+	float4 Local12 = tex::lookup_float4(texture_2d("./Textures/T_Default_Material_Grid_M.png",::tex::gamma_linear),float2(Local0.x,1.0-Local0.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local13 = math::lerp(Local9.y,0.0,0.0);
+	float Local14 = (Local12.y + Local13);
+	float Local15 = math::lerp(Local14,0.5,0.5);
+	float Local16 = math::lerp(0.295,0.66,Local15);
+	float Local17 = (Local16 * 0.5);
+	float Local18 = (Local11 * Local17);
+	float Local19 = math::lerp(0.0,0.5,Local12.y);
+	float Local20 = math::lerp(0.7,1.0,Local9.y);
+	float Local21 = math::lerp(Local20,1.0,0.0);
+	float Local22 = (Local21 * 1.0);
+	float Local23 = (Local19 + Local22);
+	float Local24 = math::min(math::max(Local23,0.0),1.0);
+
+	float3 EmissiveColor_mdl = float3(0.0,0.0,0.0);
+	float OpacityMask_mdl = 1.0;
+	float3 BaseColor_mdl = float3(Local18,Local18,Local18);
+	float Metallic_mdl = 0.0;
+	float Specular_mdl = 0.5;
+	float Roughness_mdl = Local24;
+	float SurfaceThickness_mdl = 0.01;
+
+	} in
+		::OmniUe4Base(
+			base_color: BaseColor_mdl,
+			metallic: Metallic_mdl,
+			roughness: Roughness_mdl,
+			specular: Specular_mdl,
+			normal: Normal_mdl,
+			opacity: OpacityMask_mdl,
+			emissive_color: EmissiveColor_mdl,
+			displacement: WorldPositionOffset_mdl,
+			two_sided: false);
