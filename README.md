@@ -17,15 +17,24 @@ This digital twin was developed for the University of Michigan’s [Mcity Test F
 https://mcity.umich.edu/
 
 ## SYSTEM REQUIREMENTS
+#### OMNIVERSE
+* GeForce RTX 3070+
+* 16GB RAM
+* An [Omniverse](https://www.nvidia.com/en-us/omniverse/) Blueprint, application or service.
+#### CARLA
 * Unreal 4.26
 * CARLA 0.9.12+
 * Ubuntu 20+ or Windows 10+
 * [Git LFS](https://git-lfs.com/)
+* 6GB+ GPU
 
-
-## INSTALLATION INSTRUCTIONS
 In order to download the files properly, you will need to have [Git LFS](https://git-lfs.com/) installed.
-Once installed, you can run the following commands to clone or pull the available content.
+Once installed, you can run the installation commands to clone or pull the available content.
+
+## OMNIVERSE DIGITAL TWIN INSTALLATION INSTRUCTIONS
+Copy the `Omniverse/Collected_Mcity_NSR_v4_1_6` folder to your desired location. Open `McityMap_Main.usdc` stage in any Omniverse Blueprint, application or service and enjoy!
+
+## CARLA DIGITAL INSTALLATION INSTRUCTIONS
 
 Download the content for the first time.
 ```
@@ -38,13 +47,13 @@ git lfs pull
 ```
 
 ### Source Version of CARLA
-Copy the `McityMap` folder inside the `source_version` folder and paste it in this location of your source version of CARLA `Unreal/CarlaUE4/Content/`.
+Copy the `McityMap` folder inside the `CARLA/source_version` folder and paste it in this location of your source version of CARLA `Unreal/CarlaUE4/Content/`.
 
 Launch your source version of CARLA and navigate to `Content/McityMap`. Open up the `McityMap_Main` level and enjoy!
 ![image](https://github.com/user-attachments/assets/31943806-56c8-43bb-9efc-12c8731f056f)
 <br>
 ### Packaged Version of CARLA
-Create an `McityMap` folder inside your packaged version of CARLA at this location `CarlaUE4/Content`. Then copy the contents inside of the `packaged_version/windows` or `packaged_version/linux` directory and paste it here: `CarlaUE4/Content/McityMap`. 
+Create an `McityMap` folder inside your packaged version of CARLA at this location `CarlaUE4/Content`. Then copy the contents inside of the `CARLA/packaged_version/windows` or `CARLA/packaged_version/linux` directory and paste it here: `CarlaUE4/Content/McityMap`. 
 
 Paste the following lines at the bottom of the `CarlaUE4/Config/DefaultGame.ini` file under the `[/Script/UnrealEd.ProjectPackagingSettings]` section.
 
@@ -54,12 +63,25 @@ Paste the following lines at the bottom of the `CarlaUE4/Config/DefaultGame.ini`
 +DirectoriesToAlwaysStageAsUFS=(Path="McityMap/Nav")
 ```
 
-Launch your packaged version of CARLA, run the `scripts/load_mcity_digital_twin.py` script inside your CARLA python environment and enjoy!
+Launch your packaged version of CARLA, run the `CARLA/scripts/load_mcity_digital_twin.py` script inside your CARLA python environment and enjoy!
 
+### KNOWN ISSUES
+#### Omniverse Digital Twin
+- When using the Asset Validator (v0.16.2), you will get the following error for the GroundTruthCapabilityChecker:
+  - "SemanticsAPI schema is applied but QCode is not authored." This can be ignored.
+
+
+### MCITY TEST FACILITY DATASETS
+
+Below is an example dataset from the Mcity Test Facility. It includes 6 [Triton – 2.3 MP Sony IMX392 CMOS](https://thinklucid.com/product/triton-23-mp-imx392/?srsltid=AfmBOooNnkvhosWvZXCi-G9NkdK1845-vA-5GbgraWZNhR4th0h6TReg) on-vehicle camera sensors and 1 [RoboSense P6 Solid State Lidar](https://www.robosense.ai/en/rslidar/RS-Fusion-P6) that publishes 6 lidar topics. If you would like access to the full dataset, please email mcity-engineering@umich.edu.
+
+Example Dataset: https://drive.google.com/drive/folders/1N4zK63B4GQT-LRQyEyrU_KwLh4ULf2Uu?usp=drive_link
+
+<img width="1470" alt="image" src="https://github.com/user-attachments/assets/337895ee-a61c-46dd-bcf2-97477f4e3fbf" />
 
 ## PACKAGE CONTENTS
 
-This package DOES NOT include any CARLA or Unreal code or executeables, only content that can be loaded into an existing CarlaUE4 build.
+This package DOES NOT include any CARLA or Unreal code or executables, only content that can be loaded into an existing CarlaUE4 build.
 
 * McityMap_1_6_0.uasset
 	* Dummy material used purely to quickly show the current release version.
@@ -83,15 +105,6 @@ This package DOES NOT include any CARLA or Unreal code or executeables, only con
 	* McityMap_StreetLights (static, hidden)
 	* McityMap_Terrain (static)
 
-### MCITY TEST FACILITY DATASETS
-
-Below is an example dataset from the Mcity Test Facility. It includes 6 [Triton – 2.3 MP Sony IMX392 CMOS](https://thinklucid.com/product/triton-23-mp-imx392/?srsltid=AfmBOooNnkvhosWvZXCi-G9NkdK1845-vA-5GbgraWZNhR4th0h6TReg) on-vehicle camera sensors and 1 [RoboSense P6 Solid State Lidar](https://www.robosense.ai/en/rslidar/RS-Fusion-P6) that publishes 6 lidar topics. If you would like access to the full dataset, please email mcity-engineering@umich.edu.
-
-Example Dataset: https://drive.google.com/drive/folders/1N4zK63B4GQT-LRQyEyrU_KwLh4ULf2Uu?usp=drive_link
-
-<img width="1470" alt="image" src="https://github.com/user-attachments/assets/337895ee-a61c-46dd-bcf2-97477f4e3fbf" />
-
-
 
 ### CONTENT SOURCE NOTES
 
@@ -108,7 +121,7 @@ https://quantumsignalai.com/
     
 ## LEGAL
 
-* Unreal® Engine. Unreal® is a trademark or registered trademark of Epic Games, Inc. in the United States of America and elsewhere. Unreal® Engine, Copyright 1998 – 2024, Epic Games, Inc. All rights reserved.
+* Unreal® Engine. Unreal® is a trademark or registered trademark of Epic Games, Inc. in the United States of America and elsewhere. Unreal® Engine, Copyright 1998 – 2025, Epic Games, Inc. All rights reserved.
 
 	https://www.unrealengine.com
 
@@ -120,7 +133,7 @@ https://quantumsignalai.com/
 
 	https://brand.umich.edu/trademarks-permissions/
 
-* ASAM OpenDrive Standard is © 2024 by ASAM e.V. All Rights Reserved.
+* ASAM OpenDrive Standard is © 2025 by ASAM e.V. All Rights Reserved.
 
 	https://www.asam.net/standards/detail/opendrive/
 

@@ -1,0 +1,620 @@
+mdl 1.6;
+
+import ::math::*;
+import ::state::*;
+import ::tex::*;
+import ::anno::*;
+import ::scene::*;
+using ..::OmniUe4Function import *;
+using ..::OmniUe4Base import *;
+
+export annotation sampler_color();
+export annotation sampler_normal();
+export annotation sampler_grayscale();
+export annotation sampler_alpha();
+export annotation sampler_masks();
+export annotation sampler_distancefield();
+export annotation dither_masked_off();
+export annotation world_space_normal();
+
+export material MI_McityConcreteDark(
+	float T1ScaleNEAR = 1.0
+	[[
+		anno::display_name("T1 Scale NEAR"),
+		anno::ui_order(24),
+		anno::in_group("T1 TerrainType1")
+	]],
+	float4 T1Tiling_OffsetNEAR = float4(1.0,1.0,0.0,0.0)
+	[[
+		anno::display_name("T1 Tiling & Offset NEAR"),
+		anno::ui_order(32),
+		anno::in_group("T1 TerrainType1")
+	]],
+	float T1RotationNEAR = 0.0
+	[[
+		anno::display_name("T1 Rotation NEAR"),
+		anno::ui_order(27),
+		anno::in_group("T1 TerrainType1")
+	]],
+	uniform texture_2d T1NormalMap = texture_2d("./Textures/T_Default_NRM.png",::tex::gamma_linear)
+	[[
+		anno::display_name("T1 Normal Map"),
+		anno::ui_order(12),
+		anno::in_group("T1 TerrainType1"),
+		sampler_normal()
+	]],
+	float T1NormalStrength = 1.0
+	[[
+		anno::display_name("T1 Normal Strength"),
+		anno::ui_order(14),
+		anno::in_group("T1 TerrainType1"),
+		anno::soft_range(-1.0, 1.0)
+	]],
+	float T2ScaleNEAR = 1.0
+	[[
+		anno::display_name("T2 Scale NEAR"),
+		anno::ui_order(24),
+		anno::in_group("T2 TerrainType2")
+	]],
+	float4 T2Tiling_OffsetNEAR = float4(1.0,1.0,0.0,0.0)
+	[[
+		anno::display_name("T2 Tiling & Offset NEAR"),
+		anno::ui_order(32),
+		anno::in_group("T2 TerrainType2")
+	]],
+	float T2RotationNEAR = 0.0
+	[[
+		anno::display_name("T2 Rotation NEAR"),
+		anno::ui_order(28),
+		anno::in_group("T2 TerrainType2")
+	]],
+	uniform texture_2d T2NormalMap = texture_2d("./Textures/T_Default_NRM.png",::tex::gamma_linear)
+	[[
+		anno::display_name("T2 Normal Map"),
+		anno::ui_order(7),
+		anno::in_group("T2 TerrainType2"),
+		sampler_normal()
+	]],
+	float T2NormalStrength = 1.0
+	[[
+		anno::display_name("T2 Normal Strength"),
+		anno::ui_order(9),
+		anno::in_group("T2 TerrainType2"),
+		anno::soft_range(-1.0, 1.0)
+	]],
+	float TerrainBlendScaleNEAR = 1.0
+	[[
+		anno::display_name("TerrainBlend Scale NEAR"),
+		anno::ui_order(8),
+		anno::in_group("01A TerrainBlend")
+	]],
+	float4 TerrainBlendTiling_OffsetNEAR = float4(1.0,1.0,0.0,0.0)
+	[[
+		anno::display_name("TerrainBlend Tiling & Offset NEAR"),
+		anno::ui_order(16),
+		anno::in_group("01A TerrainBlend")
+	]],
+	float TerrainBlendRotationNEAR = 0.0
+	[[
+		anno::display_name("TerrainBlend Rotation NEAR"),
+		anno::ui_order(12),
+		anno::in_group("01A TerrainBlend")
+	]],
+	uniform texture_2d TerrainBlendTexture = texture_2d("./Textures/T_Perlin_Noise_M.png",::tex::gamma_linear)
+	[[
+		anno::display_name("TerrainBlend Texture"),
+		anno::ui_order(1),
+		anno::in_group("01A TerrainBlend"),
+		sampler_masks()
+	]],
+	float TerrainBlendAmount = 1.0
+	[[
+		anno::display_name("TerrainBlend Amount"),
+		anno::ui_order(4),
+		anno::in_group("01A TerrainBlend")
+	]],
+	float TerrainBlendContrast = 1.0
+	[[
+		anno::display_name("TerrainBlend Contrast"),
+		anno::ui_order(6),
+		anno::in_group("01A TerrainBlend")
+	]],
+	float T1ScaleFAR = 1.0
+	[[
+		anno::display_name("T1 Scale FAR"),
+		anno::ui_order(25),
+		anno::in_group("T1 TerrainType1")
+	]],
+	float4 T1Tiling_OffsetFAR = float4(1.0,1.0,0.0,0.0)
+	[[
+		anno::display_name("T1 Tiling & Offset FAR"),
+		anno::ui_order(33),
+		anno::in_group("T1 TerrainType1")
+	]],
+	float T1RotationFAR = 0.0
+	[[
+		anno::display_name("T1 Rotation FAR"),
+		anno::ui_order(28),
+		anno::in_group("T1 TerrainType1")
+	]],
+	float T2ScaleFAR = 1.0
+	[[
+		anno::display_name("T2 Scale FAR"),
+		anno::ui_order(25),
+		anno::in_group("T2 TerrainType2")
+	]],
+	float4 T2Tiling_OffsetFAR = float4(1.0,1.0,0.0,0.0)
+	[[
+		anno::display_name("T2 Tiling & Offset FAR"),
+		anno::ui_order(33),
+		anno::in_group("T2 TerrainType2")
+	]],
+	float T2RotationFAR = 0.0
+	[[
+		anno::display_name("T2 Rotation FAR"),
+		anno::ui_order(29),
+		anno::in_group("T2 TerrainType2")
+	]],
+	float TerrainBlendScaleFAR = 1.0
+	[[
+		anno::display_name("TerrainBlend Scale FAR"),
+		anno::ui_order(9),
+		anno::in_group("01A TerrainBlend")
+	]],
+	float4 TerrainBlendTiling_OffsetFAR = float4(1.0,1.0,0.0,0.0)
+	[[
+		anno::display_name("TerrainBlend Tiling & Offset FAR"),
+		anno::ui_order(17),
+		anno::in_group("01A TerrainBlend")
+	]],
+	float TerrainBlendRotationFAR = 0.0
+	[[
+		anno::display_name("TerrainBlend Rotation FAR"),
+		anno::ui_order(13),
+		anno::in_group("01A TerrainBlend")
+	]],
+	float TerrainDistanceBlendStartOffset = -3500.0
+	[[
+		anno::display_name("Terrain Distance Blend Start Offset"),
+		anno::ui_order(2),
+		anno::in_group("01B Terrain Distance Blend")
+	]],
+	float TerrainDistanceBlendRange = 2000.0
+	[[
+		anno::display_name("Terrain Distance Blend Range"),
+		anno::ui_order(1),
+		anno::in_group("01B Terrain Distance Blend")
+	]],
+	float MT1Scale = 0.02
+	[[
+		anno::display_name("MT1 Scale"),
+		anno::ui_order(10),
+		anno::in_group("MacroTexture1")
+	]],
+	float4 MT1Tiling_Offset = float4(1.0,1.0,0.0,0.0)
+	[[
+		anno::display_name("MT1 Tiling & Offset"),
+		anno::ui_order(14),
+		anno::in_group("MacroTexture1")
+	]],
+	float MT1Rotation = 0.0
+	[[
+		anno::display_name("MT1 Rotation"),
+		anno::ui_order(12),
+		anno::in_group("MacroTexture1")
+	]],
+	uniform texture_2d MT1Texture = texture_2d("./Textures/T_MacroVariation.png",::tex::gamma_srgb)
+	[[
+		anno::display_name("MT1 Texture"),
+		anno::ui_order(1),
+		anno::in_group("MacroTexture1"),
+		sampler_color()
+	]],
+	float4 MT1Contrast = float4(0.5,0.5,0.5,1.0)
+	[[
+		anno::display_name("MT1 Contrast"),
+		anno::ui_order(8),
+		anno::in_group("MacroTexture1")
+	]],
+	float MT1BlendAmount = 1.0
+	[[
+		anno::display_name("MT1 Blend Amount"),
+		anno::ui_order(4),
+		anno::in_group("MacroTexture1")
+	]],
+	float MT1BlendPower = 1.0
+	[[
+		anno::display_name("MT1 Blend Power"),
+		anno::ui_order(6),
+		anno::in_group("MacroTexture1")
+	]],
+	float MT2Scale = 0.02
+	[[
+		anno::display_name("MT2 Scale"),
+		anno::ui_order(8),
+		anno::in_group("MacroTexture2")
+	]],
+	float4 MT2Tiling_Offset = float4(1.0,1.0,0.0,0.0)
+	[[
+		anno::display_name("MT2 Tiling & Offset"),
+		anno::ui_order(12),
+		anno::in_group("MacroTexture2")
+	]],
+	float MT2Rotation = 0.0
+	[[
+		anno::display_name("MT2 Rotation"),
+		anno::ui_order(10),
+		anno::in_group("MacroTexture2")
+	]],
+	uniform texture_2d MT2Texture = texture_2d("./Textures/T_MacroVariation.png",::tex::gamma_srgb)
+	[[
+		anno::display_name("MT2 Texture"),
+		anno::ui_order(1),
+		anno::in_group("MacroTexture2"),
+		sampler_color()
+	]],
+	float4 MT2Contrast = float4(0.5,0.5,0.5,1.0)
+	[[
+		anno::display_name("MT2 Contrast"),
+		anno::ui_order(5),
+		anno::in_group("MacroTexture2")
+	]],
+	float MT2BlendAmount = 1.0
+	[[
+		anno::display_name("MT2 Blend Amount"),
+		anno::ui_order(3),
+		anno::in_group("MacroTexture2")
+	]],
+	float MT2BlendPower = 1.0
+	[[
+		anno::display_name("MT2 Blend Power"),
+		anno::ui_order(4),
+		anno::in_group("MacroTexture2")
+	]],
+	float MT3Scale = 0.002
+	[[
+		anno::display_name("MT3 Scale"),
+		anno::ui_order(8),
+		anno::in_group("MacroTexture3")
+	]],
+	float4 MT3Tiling_Offset = float4(1.0,1.0,0.0,0.0)
+	[[
+		anno::display_name("MT3 Tiling & Offset"),
+		anno::ui_order(12),
+		anno::in_group("MacroTexture3")
+	]],
+	float MT3Rotation = 0.0
+	[[
+		anno::display_name("MT3 Rotation"),
+		anno::ui_order(10),
+		anno::in_group("MacroTexture3")
+	]],
+	uniform texture_2d MT3Texture = texture_2d("./Textures/T_MacroVariation.png",::tex::gamma_srgb)
+	[[
+		anno::display_name("MT3 Texture"),
+		anno::ui_order(1),
+		anno::in_group("MacroTexture3"),
+		sampler_color()
+	]],
+	float4 MT3Contrast = float4(0.5,0.5,0.5,1.0)
+	[[
+		anno::display_name("MT3 Contrast"),
+		anno::ui_order(6),
+		anno::in_group("MacroTexture3")
+	]],
+	float MT3BlendAmount = 1.0
+	[[
+		anno::display_name("MT3 Blend Amount"),
+		anno::ui_order(3),
+		anno::in_group("MacroTexture3")
+	]],
+	float MT3BlendPower = 1.0
+	[[
+		anno::display_name("MT3 Blend Power"),
+		anno::ui_order(4),
+		anno::in_group("MacroTexture3")
+	]],
+	uniform texture_2d T1BaseColorMap = texture_2d("./Textures/T_Default_BC.png",::tex::gamma_srgb)
+	[[
+		anno::display_name("T1 Base Color Map"),
+		anno::ui_order(4),
+		anno::in_group("T1 TerrainType1"),
+		sampler_color()
+	]],
+	float4 T1BaseColorAdjustments = float4(1.0,1.0,1.0,0.0)
+	[[
+		anno::display_name("T1 Base Color Adjustments"),
+		anno::ui_order(8),
+		anno::in_group("T1 TerrainType1")
+	]],
+	float4 T1BaseColorTint = float4(1.0,1.0,1.0,1.0)
+	[[
+		anno::display_name("T1 Base Color Tint"),
+		anno::ui_order(6),
+		anno::in_group("T1 TerrainType1")
+	]],
+	uniform texture_2d T2BaseColorMap = texture_2d("./Textures/T_Default_BC.png",::tex::gamma_srgb)
+	[[
+		anno::display_name("T2 Base Color Map"),
+		anno::ui_order(1),
+		anno::in_group("T2 TerrainType2"),
+		sampler_color()
+	]],
+	float4 T2BaseColorAdjustments = float4(1.0,1.0,1.0,0.0)
+	[[
+		anno::display_name("T2 Base Color Adjustments"),
+		anno::ui_order(4),
+		anno::in_group("T2 TerrainType2")
+	]],
+	float4 T2BaseColorTint = float4(1.0,1.0,1.0,1.0)
+	[[
+		anno::display_name("T2 Base Color Tint"),
+		anno::ui_order(3),
+		anno::in_group("T2 TerrainType2")
+	]],
+	float T1RoughnessMIN = 0.0
+	[[
+		anno::display_name("T1 Roughness MIN"),
+		anno::ui_order(20),
+		anno::in_group("T1 TerrainType1")
+	]],
+	float T1RoughnessMAX = 1.0
+	[[
+		anno::display_name("T1 Roughness MAX"),
+		anno::ui_order(22),
+		anno::in_group("T1 TerrainType1")
+	]],
+	uniform texture_2d T1RoughnessMap = texture_2d("./Textures/T_Default_RGH.png",::tex::gamma_srgb)
+	[[
+		anno::display_name("T1 Roughness Map"),
+		anno::ui_order(18),
+		anno::in_group("T1 TerrainType1"),
+		sampler_color()
+	]],
+	float T2RoughnessMIN = 0.0
+	[[
+		anno::display_name("T2 Roughness MIN"),
+		anno::ui_order(14),
+		anno::in_group("T2 TerrainType2")
+	]],
+	float T2RoughnessMAX = 1.0
+	[[
+		anno::display_name("T2 Roughness MAX"),
+		anno::ui_order(15),
+		anno::in_group("T2 TerrainType2")
+	]],
+	uniform texture_2d T2RoughnessMap = texture_2d("./Textures/T_Default_RGH.png",::tex::gamma_srgb)
+	[[
+		anno::display_name("T2 Roughness Map"),
+		anno::ui_order(12),
+		anno::in_group("T2 TerrainType2"),
+		sampler_color()
+	]],
+	int MaxTexCoordIndex = 3
+	[[
+		anno::hidden()
+	]])
+ = 
+	let {
+	float3 WorldPositionOffset_mdl = float3(0.0,0.0,0.0);
+	float2 CustomizedUV0_mdl = float2(state::texture_coordinate(math::min(0,MaxTexCoordIndex)).x,1.0-state::texture_coordinate(math::min(0,MaxTexCoordIndex)).y);
+
+	float2 Local0 = (float2(::object_orientation().x,::object_orientation().y) * -1.0);
+	float Local1 = math::dot(CustomizedUV0_mdl, float2(0.0,1.0));
+	float Local2 = math::dot(CustomizedUV0_mdl, float2(1.0,0.0));
+	float2 Local3 = (1.0 * float2(Local2,Local1));
+	float2 Local4 = (Local3 + float2(0.0,0.0));
+	float2 Local5 = (Local4 * T1ScaleNEAR);
+	float2 Local6 = (Local5 * float2(T1Tiling_OffsetNEAR.x,T1Tiling_OffsetNEAR.y));
+	float2 Local7 = (Local6 + float2(T1Tiling_OffsetNEAR.z,T1Tiling_OffsetNEAR.w));
+	float2 Local8 = (Local0 + Local7);
+	float Local9 = (T1RotationNEAR / 360.0);
+	float Local10 = (Local9 * 6.283185);
+	float Local11 = math::cos(Local10);
+	float Local12 = math::sin(Local10);
+	float Local13 = (Local12 * -1.0);
+	float Local14 = math::dot(Local8, float2(Local11,Local13));
+	float Local15 = math::dot(Local8, float2(Local12,Local11));
+	float2 Local16 = (float2(::object_orientation().x,::object_orientation().y) + float2(Local14,Local15));
+	float4 Local17 = ::unpack_normal_map(tex::lookup_float4(T1NormalMap,float2(Local16.x,1.0-Local16.y),tex::wrap_repeat,tex::wrap_repeat));
+	float2 Local18 = (float2(float3(Local17.x,Local17.y,Local17.z).x,float3(Local17.x,Local17.y,Local17.z).y) * T1NormalStrength);
+	float2 Local19 = (Local4 * T2ScaleNEAR);
+	float2 Local20 = (Local19 * float2(T2Tiling_OffsetNEAR.x,T2Tiling_OffsetNEAR.y));
+	float2 Local21 = (Local20 + float2(T2Tiling_OffsetNEAR.z,T2Tiling_OffsetNEAR.w));
+	float2 Local22 = (Local0 + Local21);
+	float Local23 = (T2RotationNEAR / 360.0);
+	float Local24 = (Local23 * 6.283185);
+	float Local25 = math::cos(Local24);
+	float Local26 = math::sin(Local24);
+	float Local27 = (Local26 * -1.0);
+	float Local28 = math::dot(Local22, float2(Local25,Local27));
+	float Local29 = math::dot(Local22, float2(Local26,Local25));
+	float2 Local30 = (float2(::object_orientation().x,::object_orientation().y) + float2(Local28,Local29));
+	float4 Local31 = ::unpack_normal_map(tex::lookup_float4(T2NormalMap,float2(Local30.x,1.0-Local30.y),tex::wrap_repeat,tex::wrap_repeat));
+	float2 Local32 = (float2(float3(Local31.x,Local31.y,Local31.z).x,float3(Local31.x,Local31.y,Local31.z).y) * T2NormalStrength);
+	float2 Local33 = (Local4 * TerrainBlendScaleNEAR);
+	float2 Local34 = (Local33 * float2(TerrainBlendTiling_OffsetNEAR.x,TerrainBlendTiling_OffsetNEAR.y));
+	float2 Local35 = (Local34 + float2(TerrainBlendTiling_OffsetNEAR.z,TerrainBlendTiling_OffsetNEAR.w));
+	float2 Local36 = (Local0 + Local35);
+	float Local37 = (TerrainBlendRotationNEAR / 360.0);
+	float Local38 = (Local37 * 6.283185);
+	float Local39 = math::cos(Local38);
+	float Local40 = math::sin(Local38);
+	float Local41 = (Local40 * -1.0);
+	float Local42 = math::dot(Local36, float2(Local39,Local41));
+	float Local43 = math::dot(Local36, float2(Local40,Local39));
+	float2 Local44 = (float2(::object_orientation().x,::object_orientation().y) + float2(Local42,Local43));
+	float4 Local45 = tex::lookup_float4(TerrainBlendTexture,float2(Local44.x,1.0-Local44.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local46 = (Local45.x * TerrainBlendAmount);
+	float Local47 = math::pow(math::max(Local46,float(0.000001)),TerrainBlendContrast);
+	float Local48 = math::min(math::max(Local47,0.0),1.0);
+	float3 Local49 = math::lerp(float3(Local18.x,Local18.y,float3(Local17.x,Local17.y,Local17.z).z),float3(Local32.x,Local32.y,float3(Local31.x,Local31.y,Local31.z).z),Local48);
+	float2 Local50 = (Local4 * T1ScaleFAR);
+	float2 Local51 = (Local50 * float2(T1Tiling_OffsetFAR.x,T1Tiling_OffsetFAR.y));
+	float2 Local52 = (Local51 + float2(T1Tiling_OffsetFAR.z,T1Tiling_OffsetFAR.w));
+	float2 Local53 = (Local0 + Local52);
+	float Local54 = (T1RotationFAR / 360.0);
+	float Local55 = (Local54 * 6.283185);
+	float Local56 = math::cos(Local55);
+	float Local57 = math::sin(Local55);
+	float Local58 = (Local57 * -1.0);
+	float Local59 = math::dot(Local53, float2(Local56,Local58));
+	float Local60 = math::dot(Local53, float2(Local57,Local56));
+	float2 Local61 = (float2(::object_orientation().x,::object_orientation().y) + float2(Local59,Local60));
+	float4 Local62 = ::unpack_normal_map(tex::lookup_float4(T1NormalMap,float2(Local61.x,1.0-Local61.y),tex::wrap_repeat,tex::wrap_repeat));
+	float2 Local63 = (float2(float3(Local62.x,Local62.y,Local62.z).x,float3(Local62.x,Local62.y,Local62.z).y) * T1NormalStrength);
+	float2 Local64 = (Local4 * T2ScaleFAR);
+	float2 Local65 = (Local64 * float2(T2Tiling_OffsetFAR.x,T2Tiling_OffsetFAR.y));
+	float2 Local66 = (Local65 + float2(T2Tiling_OffsetFAR.z,T2Tiling_OffsetFAR.w));
+	float2 Local67 = (Local0 + Local66);
+	float Local68 = (T2RotationFAR / 360.0);
+	float Local69 = (Local68 * 6.283185);
+	float Local70 = math::cos(Local69);
+	float Local71 = math::sin(Local69);
+	float Local72 = (Local71 * -1.0);
+	float Local73 = math::dot(Local67, float2(Local70,Local72));
+	float Local74 = math::dot(Local67, float2(Local71,Local70));
+	float2 Local75 = (float2(::object_orientation().x,::object_orientation().y) + float2(Local73,Local74));
+	float4 Local76 = ::unpack_normal_map(tex::lookup_float4(T2NormalMap,float2(Local75.x,1.0-Local75.y),tex::wrap_repeat,tex::wrap_repeat));
+	float2 Local77 = (float2(float3(Local76.x,Local76.y,Local76.z).x,float3(Local76.x,Local76.y,Local76.z).y) * T2NormalStrength);
+	float2 Local78 = (Local4 * TerrainBlendScaleFAR);
+	float2 Local79 = (Local78 * float2(TerrainBlendTiling_OffsetFAR.x,TerrainBlendTiling_OffsetFAR.y));
+	float2 Local80 = (Local79 + float2(TerrainBlendTiling_OffsetFAR.z,TerrainBlendTiling_OffsetFAR.w));
+	float2 Local81 = (Local0 + Local80);
+	float Local82 = (TerrainBlendRotationFAR / 360.0);
+	float Local83 = (Local82 * 6.283185);
+	float Local84 = math::cos(Local83);
+	float Local85 = math::sin(Local83);
+	float Local86 = (Local85 * -1.0);
+	float Local87 = math::dot(Local81, float2(Local84,Local86));
+	float Local88 = math::dot(Local81, float2(Local85,Local84));
+	float2 Local89 = (float2(::object_orientation().x,::object_orientation().y) + float2(Local87,Local88));
+	float4 Local90 = tex::lookup_float4(TerrainBlendTexture,float2(Local89.x,1.0-Local89.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local91 = (Local90.x * TerrainBlendAmount);
+	float Local92 = math::pow(math::max(Local91,float(0.000001)),TerrainBlendContrast);
+	float Local93 = math::min(math::max(Local92,0.0),1.0);
+	float3 Local94 = math::lerp(float3(Local63.x,Local63.y,float3(Local62.x,Local62.y,Local62.z).z),float3(Local77.x,Local77.y,float3(Local76.x,Local76.y,Local76.z).z),Local93);
+	float Local95 = (::pixel_depth() + TerrainDistanceBlendStartOffset);
+	float Local96 = (Local95 / TerrainDistanceBlendRange);
+	float Local97 = math::min(math::max(Local96,0.0),1.0);
+	float3 Local98 = math::lerp(Local49,Local94,Local97);
+
+	float3 Normal_mdl = Local98;
+
+	float2 Local99 = (CustomizedUV0_mdl * MT1Scale);
+	float2 Local100 = (Local99 * float2(MT1Tiling_Offset.x,MT1Tiling_Offset.y));
+	float2 Local101 = (Local100 + float2(MT1Tiling_Offset.z,MT1Tiling_Offset.w));
+	float2 Local102 = (Local0 + Local101);
+	float Local103 = (MT1Rotation / 360.0);
+	float Local104 = (Local103 * 6.283185);
+	float Local105 = math::cos(Local104);
+	float Local106 = math::sin(Local104);
+	float Local107 = (Local106 * -1.0);
+	float Local108 = math::dot(Local102, float2(Local105,Local107));
+	float Local109 = math::dot(Local102, float2(Local106,Local105));
+	float2 Local110 = (float2(::object_orientation().x,::object_orientation().y) + float2(Local108,Local109));
+	float4 Local111 = tex::lookup_float4(MT1Texture,float2(Local110.x,1.0-Local110.y),tex::wrap_repeat,tex::wrap_repeat);
+	float3 Local112 = (float3(Local111.x,Local111.y,Local111.z) * float3(MT1Contrast.x,MT1Contrast.y,MT1Contrast.z));
+	float3 Local113 = (Local112 * MT1BlendAmount);
+	float3 Local114 = math::pow(math::max(Local113,float3(0.000001)),float3(MT1BlendPower,MT1BlendPower,MT1BlendPower));
+	float3 Local115 = math::min(math::max(Local114,float3(0.0,0.0,0.0)),float3(1.0,1.0,1.0));
+	float3 Local116 = math::lerp(Local115,float3(1.0,1.0,1.0),0.5);
+	float2 Local117 = (CustomizedUV0_mdl * MT2Scale);
+	float2 Local118 = (Local117 * float2(MT2Tiling_Offset.x,MT2Tiling_Offset.y));
+	float2 Local119 = (Local118 + float2(MT2Tiling_Offset.z,MT2Tiling_Offset.w));
+	float2 Local120 = (Local0 + Local119);
+	float Local121 = (MT2Rotation / 360.0);
+	float Local122 = (Local121 * 6.283185);
+	float Local123 = math::cos(Local122);
+	float Local124 = math::sin(Local122);
+	float Local125 = (Local124 * -1.0);
+	float Local126 = math::dot(Local120, float2(Local123,Local125));
+	float Local127 = math::dot(Local120, float2(Local124,Local123));
+	float2 Local128 = (float2(::object_orientation().x,::object_orientation().y) + float2(Local126,Local127));
+	float4 Local129 = tex::lookup_float4(MT2Texture,float2(Local128.x,1.0-Local128.y),tex::wrap_repeat,tex::wrap_repeat);
+	float3 Local130 = (float3(Local129.x,Local129.y,Local129.z) * float3(MT2Contrast.x,MT2Contrast.y,MT2Contrast.z));
+	float3 Local131 = (Local130 * MT2BlendAmount);
+	float3 Local132 = math::pow(math::max(Local131,float3(0.000001)),float3(MT2BlendPower,MT2BlendPower,MT2BlendPower));
+	float3 Local133 = math::min(math::max(Local132,float3(0.0,0.0,0.0)),float3(1.0,1.0,1.0));
+	float3 Local134 = math::lerp(Local133,float3(1.0,1.0,1.0),0.5);
+	float2 Local135 = (CustomizedUV0_mdl * MT3Scale);
+	float2 Local136 = (Local135 * float2(MT3Tiling_Offset.x,MT3Tiling_Offset.y));
+	float2 Local137 = (Local136 + float2(MT3Tiling_Offset.z,MT3Tiling_Offset.w));
+	float2 Local138 = (Local0 + Local137);
+	float Local139 = (MT3Rotation / 360.0);
+	float Local140 = (Local139 * 6.283185);
+	float Local141 = math::cos(Local140);
+	float Local142 = math::sin(Local140);
+	float Local143 = (Local142 * -1.0);
+	float Local144 = math::dot(Local138, float2(Local141,Local143));
+	float Local145 = math::dot(Local138, float2(Local142,Local141));
+	float2 Local146 = (float2(::object_orientation().x,::object_orientation().y) + float2(Local144,Local145));
+	float4 Local147 = tex::lookup_float4(MT3Texture,float2(Local146.x,1.0-Local146.y),tex::wrap_repeat,tex::wrap_repeat);
+	float3 Local148 = (Local147.x * float3(MT3Contrast.x,MT3Contrast.y,MT3Contrast.z));
+	float3 Local149 = (Local148 * MT3BlendAmount);
+	float3 Local150 = math::pow(math::max(Local149,float3(0.000001)),float3(MT3BlendPower,MT3BlendPower,MT3BlendPower));
+	float3 Local151 = math::min(math::max(Local150,float3(0.0,0.0,0.0)),float3(1.0,1.0,1.0));
+	float3 Local152 = math::lerp(Local151,float3(1.0,1.0,1.0),0.5);
+	float3 Local153 = (Local134 * Local152);
+	float3 Local154 = (Local116 * Local153);
+	float4 Local155 = tex::lookup_float4(T1BaseColorMap,float2(Local16.x,1.0-Local16.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local156 = math::dot(float3(Local155.x,Local155.y,Local155.z), float3(0.3,0.59,0.11));
+	float Local157 = (1.0 - T1BaseColorAdjustments.x);
+	float3 Local158 = math::lerp(float3(Local155.x,Local155.y,Local155.z),float3(Local156,Local156,Local156),Local157);
+	float3 Local159 = (Local158 * T1BaseColorAdjustments.y);
+	float3 Local160 = (Local159 * float3(T1BaseColorTint.x,T1BaseColorTint.y,T1BaseColorTint.z));
+	float3 Local161 = math::pow(math::max(Local160,float3(0.000001)),float3(T1BaseColorAdjustments.z,T1BaseColorAdjustments.z,T1BaseColorAdjustments.z));
+	float4 Local162 = tex::lookup_float4(T2BaseColorMap,float2(Local30.x,1.0-Local30.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local163 = math::dot(float3(Local162.x,Local162.y,Local162.z), float3(0.3,0.59,0.11));
+	float Local164 = (1.0 - T2BaseColorAdjustments.x);
+	float3 Local165 = math::lerp(float3(Local162.x,Local162.y,Local162.z),float3(Local163,Local163,Local163),Local164);
+	float3 Local166 = (Local165 * T2BaseColorAdjustments.y);
+	float3 Local167 = (Local166 * float3(T2BaseColorTint.x,T2BaseColorTint.y,T2BaseColorTint.z));
+	float3 Local168 = math::pow(math::max(Local167,float3(0.000001)),float3(T2BaseColorAdjustments.z,T2BaseColorAdjustments.z,T2BaseColorAdjustments.z));
+	float3 Local169 = math::lerp(Local161,Local168,Local48);
+	float4 Local170 = tex::lookup_float4(T1BaseColorMap,float2(Local61.x,1.0-Local61.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local171 = math::dot(float3(Local170.x,Local170.y,Local170.z), float3(0.3,0.59,0.11));
+	float3 Local172 = math::lerp(float3(Local170.x,Local170.y,Local170.z),float3(Local171,Local171,Local171),Local157);
+	float3 Local173 = (Local172 * T1BaseColorAdjustments.y);
+	float3 Local174 = (Local173 * float3(T1BaseColorTint.x,T1BaseColorTint.y,T1BaseColorTint.z));
+	float3 Local175 = math::pow(math::max(Local174,float3(0.000001)),float3(T1BaseColorAdjustments.z,T1BaseColorAdjustments.z,T1BaseColorAdjustments.z));
+	float4 Local176 = tex::lookup_float4(T2BaseColorMap,float2(Local75.x,1.0-Local75.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local177 = math::dot(float3(Local176.x,Local176.y,Local176.z), float3(0.3,0.59,0.11));
+	float3 Local178 = math::lerp(float3(Local176.x,Local176.y,Local176.z),float3(Local177,Local177,Local177),Local164);
+	float3 Local179 = (Local178 * T2BaseColorAdjustments.y);
+	float3 Local180 = (Local179 * float3(T2BaseColorTint.x,T2BaseColorTint.y,T2BaseColorTint.z));
+	float3 Local181 = math::pow(math::max(Local180,float3(0.000001)),float3(T2BaseColorAdjustments.z,T2BaseColorAdjustments.z,T2BaseColorAdjustments.z));
+	float3 Local182 = math::lerp(Local175,Local181,Local93);
+	float3 Local183 = math::lerp(Local169,Local182,Local97);
+	float3 Local184 = (Local154 * Local183);
+	float4 Local185 = tex::lookup_float4(T1RoughnessMap,float2(Local16.x,1.0-Local16.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local186 = math::lerp(T1RoughnessMIN,T1RoughnessMAX,float3(Local185.x,Local185.y,Local185.z).x);
+	float4 Local187 = tex::lookup_float4(T2RoughnessMap,float2(Local30.x,1.0-Local30.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local188 = math::lerp(T2RoughnessMIN,T2RoughnessMAX,float3(Local187.x,Local187.y,Local187.z).x);
+	float Local189 = math::lerp(Local186,Local188,Local48);
+	float4 Local190 = tex::lookup_float4(T1RoughnessMap,float2(Local61.x,1.0-Local61.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local191 = math::lerp(T1RoughnessMIN,T1RoughnessMAX,float3(Local190.x,Local190.y,Local190.z).x);
+	float4 Local192 = tex::lookup_float4(T2RoughnessMap,float2(Local75.x,1.0-Local75.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local193 = math::lerp(T2RoughnessMIN,T2RoughnessMAX,float3(Local192.x,Local192.y,Local192.z).x);
+	float Local194 = math::lerp(Local191,Local193,Local93);
+	float Local195 = math::lerp(Local189,Local194,Local97);
+
+	float3 EmissiveColor_mdl = float3(0.0,0.0,0.0);
+	float OpacityMask_mdl = 1.0;
+	float3 BaseColor_mdl = Local184;
+	float Metallic_mdl = 0.0;
+	float Specular_mdl = 0.5;
+	float Roughness_mdl = Local195;
+	float SurfaceThickness_mdl = 0.01;
+
+	} in
+		::OmniUe4Base(
+			base_color: BaseColor_mdl,
+			metallic: Metallic_mdl,
+			roughness: Roughness_mdl,
+			specular: Specular_mdl,
+			normal: Normal_mdl,
+			opacity: OpacityMask_mdl,
+			emissive_color: EmissiveColor_mdl,
+			displacement: WorldPositionOffset_mdl,
+			two_sided: false);

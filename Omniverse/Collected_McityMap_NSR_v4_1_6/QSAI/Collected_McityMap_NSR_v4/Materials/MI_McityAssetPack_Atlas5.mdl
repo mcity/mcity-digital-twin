@@ -1,0 +1,145 @@
+mdl 1.6;
+
+import ::math::*;
+import ::state::*;
+import ::tex::*;
+import ::anno::*;
+import ::scene::*;
+using ..::OmniUe4Function import *;
+using ..::OmniUe4Base import *;
+
+export annotation sampler_color();
+export annotation sampler_normal();
+export annotation sampler_grayscale();
+export annotation sampler_alpha();
+export annotation sampler_masks();
+export annotation sampler_distancefield();
+export annotation dither_masked_off();
+export annotation world_space_normal();
+
+export material MI_McityAssetPack_Atlas5(
+	uniform texture_2d Normal_Map = texture_2d("./Textures/T_Default_NRM.png",::tex::gamma_linear)
+	[[
+		anno::display_name("Normal - Map"),
+		anno::ui_order(3),
+		anno::in_group("00 - Input Maps"),
+		sampler_normal()
+	]],
+	float NormalStrength = 1.0
+	[[
+		anno::display_name("Normal Strength"),
+		anno::ui_order(32),
+		anno::in_group("05 - Normal")
+	]],
+	float DetailNormalStrength = 1.0
+	[[
+		anno::display_name("Detail Normal Strength"),
+		anno::ui_order(1),
+		anno::in_group("05 - Normal")
+	]],
+	float DetailNormalOverride = 0.0
+	[[
+		anno::display_name("Detail Normal  Override"),
+		anno::ui_order(2),
+		anno::in_group("05 - Normal")
+	]],
+	uniform texture_2d BaseColor_Map = texture_2d("./Textures/T_Default_BC.png",::tex::gamma_srgb)
+	[[
+		anno::display_name("Base Color - Map"),
+		anno::ui_order(32),
+		anno::in_group("00 - Input Maps"),
+		sampler_color()
+	]],
+	float4 AlbedoControls = float4(1.0,1.0,1.0,0.0)
+	[[
+		anno::display_name("Albedo Controls"),
+		anno::ui_order(32),
+		anno::in_group("01 - Albedo")
+	]],
+	float4 AlbedoTint = float4(1.0,1.0,1.0,1.0)
+	[[
+		anno::display_name("Albedo Tint"),
+		anno::ui_order(1),
+		anno::in_group("01 - Albedo")
+	]],
+	float4 MetallicControls = float4(1.0,0.0,1.0,1.0)
+	[[
+		anno::display_name("Metallic Controls"),
+		anno::ui_order(32),
+		anno::in_group("02 - Metallic")
+	]],
+	uniform texture_2d AO_Rough_Metal_Map = texture_2d("./Textures/T_Default_ORM.png",::tex::gamma_srgb)
+	[[
+		anno::display_name("AO / Rough / Metal - Map"),
+		anno::ui_order(2),
+		anno::in_group("00 - Input Maps"),
+		sampler_color()
+	]],
+	float MinRoughness = 0.0
+	[[
+		anno::display_name("Min Roughness"),
+		anno::ui_order(32),
+		anno::in_group("04 - Roughness")
+	]],
+	float MaxRoughness = 1.0
+	[[
+		anno::display_name("Max Roughness"),
+		anno::ui_order(1),
+		anno::in_group("04 - Roughness")
+	]],
+	int MaxTexCoordIndex = 3
+	[[
+		anno::hidden()
+	]])
+ = 
+	let {
+	float3 WorldPositionOffset_mdl = float3(0.0,0.0,0.0);
+	float2 CustomizedUV0_mdl = float2(state::texture_coordinate(math::min(0,MaxTexCoordIndex)).x,1.0-state::texture_coordinate(math::min(0,MaxTexCoordIndex)).y);
+
+	float4 Local0 = ::unpack_normal_map(tex::lookup_float4(Normal_Map,float2(CustomizedUV0_mdl.x,1.0-CustomizedUV0_mdl.y),tex::wrap_repeat,tex::wrap_repeat));
+	float2 Local1 = (float2(float3(Local0.x,Local0.y,Local0.z).x,float3(Local0.x,Local0.y,Local0.z).y) * NormalStrength);
+	float Local2 = (float3(Local1.x,Local1.y,float3(Local0.x,Local0.y,Local0.z).z).z + 1.0);
+	float2 Local3 = (float2(float3(0.0,0.0,1.0).x,float3(0.0,0.0,1.0).y) * DetailNormalStrength);
+	float Local4 = math::round(DetailNormalOverride);
+	float3 Local5 = math::lerp(float3(0.0,0.0,1.0),float3(Local3.x,Local3.y,float3(0.0,0.0,1.0).z),Local4);
+	float3 Local6 = math::normalize(Local5);
+	float2 Local7 = (float2(Local6.x,Local6.y) * -1.0);
+	float Local8 = math::dot(float3(float2(float3(Local1.x,Local1.y,float3(Local0.x,Local0.y,Local0.z).z).x,float3(Local1.x,Local1.y,float3(Local0.x,Local0.y,Local0.z).z).y).x,float2(float3(Local1.x,Local1.y,float3(Local0.x,Local0.y,Local0.z).z).x,float3(Local1.x,Local1.y,float3(Local0.x,Local0.y,Local0.z).z).y).y,Local2), float3(Local7.x,Local7.y,Local6.z));
+	float3 Local9 = (float3(float2(float3(Local1.x,Local1.y,float3(Local0.x,Local0.y,Local0.z).z).x,float3(Local1.x,Local1.y,float3(Local0.x,Local0.y,Local0.z).z).y).x,float2(float3(Local1.x,Local1.y,float3(Local0.x,Local0.y,Local0.z).z).x,float3(Local1.x,Local1.y,float3(Local0.x,Local0.y,Local0.z).z).y).y,Local2) * Local8);
+	float3 Local10 = (Local2 * float3(Local7.x,Local7.y,Local6.z));
+	float3 Local11 = (Local9 - Local10);
+
+	float3 Normal_mdl = Local11;
+
+	float4 Local12 = tex::lookup_float4(BaseColor_Map,float2(CustomizedUV0_mdl.x,1.0-CustomizedUV0_mdl.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local13 = math::dot(float3(Local12.x,Local12.y,Local12.z), float3(0.3,0.59,0.11));
+	float Local14 = (1.0 - AlbedoControls.x);
+	float3 Local15 = math::lerp(float3(Local12.x,Local12.y,Local12.z),float3(Local13,Local13,Local13),Local14);
+	float3 Local16 = (Local15 * AlbedoControls.y);
+	float3 Local17 = (Local16 * float3(AlbedoTint.x,AlbedoTint.y,AlbedoTint.z));
+	float3 Local18 = math::pow(math::max(Local17,float3(0.000001)),float3(AlbedoControls.z,AlbedoControls.z,AlbedoControls.z));
+	float4 Local19 = tex::lookup_float4(AO_Rough_Metal_Map,float2(CustomizedUV0_mdl.x,1.0-CustomizedUV0_mdl.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local20 = (Local19.z * MetallicControls.z);
+	float Local21 = math::round(MetallicControls.x);
+	float Local22 = math::lerp(MetallicControls.y,Local20,Local21);
+	float Local23 = math::lerp(MinRoughness,MaxRoughness,Local19.y);
+
+	float3 EmissiveColor_mdl = float3(0.0,0.0,0.0);
+	float OpacityMask_mdl = 1.0;
+	float3 BaseColor_mdl = Local18;
+	float Metallic_mdl = Local22;
+	float Specular_mdl = 0.5;
+	float Roughness_mdl = Local23;
+	float SurfaceThickness_mdl = 0.01;
+
+	} in
+		::OmniUe4Base(
+			base_color: BaseColor_mdl,
+			metallic: Metallic_mdl,
+			roughness: Roughness_mdl,
+			specular: Specular_mdl,
+			normal: Normal_mdl,
+			opacity: OpacityMask_mdl,
+			emissive_color: EmissiveColor_mdl,
+			displacement: WorldPositionOffset_mdl,
+			two_sided: false);

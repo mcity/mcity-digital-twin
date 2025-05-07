@@ -1,0 +1,18 @@
+
+mdl 1.4;
+import df::*;
+import base::*;
+import math::*;
+import state::*;
+import anno::*;
+import tex::*;
+import OmniPBR::OmniPBR;
+
+export material Scarlet_Oak_leaf_Mat(*) = OmniPBR::OmniPBR(
+	diffuse_color_constant: color(1,1,1),
+	diffuse_texture: texture_2d("../textures/oakleaves1_basecolor.png"),
+	emissive_color: color(0,0,0),
+	enable_emission: true,
+	normalmap_texture: texture_2d("../textures/oakleaves1_normal.png"),
+	uv_space_index: 0
+);

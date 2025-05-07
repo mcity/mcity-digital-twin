@@ -1,0 +1,183 @@
+mdl 1.6;
+
+import ::math::*;
+import ::state::*;
+import ::tex::*;
+import ::anno::*;
+import ::scene::*;
+using ..::OmniUe4Function import *;
+using ..::OmniUe4Translucent import *;
+
+export annotation sampler_color();
+export annotation sampler_normal();
+export annotation sampler_grayscale();
+export annotation sampler_alpha();
+export annotation sampler_masks();
+export annotation sampler_distancefield();
+export annotation dither_masked_off();
+export annotation world_space_normal();
+
+export material MI_StreetLight_s001_Glass_Atlas(
+	float TextureScale = 1.0
+	[[
+		anno::display_name("Texture Scale"),
+		anno::ui_order(2),
+		anno::in_group("00 Tiling & Offset")
+	]],
+	float4 TextureTiling_Offset = float4(1.0,1.0,0.0,0.0)
+	[[
+		anno::display_name("Texture Tiling & Offset"),
+		anno::ui_order(6),
+		anno::in_group("00 Tiling & Offset")
+	]],
+	float TextureRotation = 0.0
+	[[
+		anno::display_name("Texture Rotation"),
+		anno::ui_order(4),
+		anno::in_group("00 Tiling & Offset")
+	]],
+	uniform texture_2d NormalMap = texture_2d("./Textures/T_TestMaterial_s001_NRM.png",::tex::gamma_linear)
+	[[
+		anno::display_name("Normal Map"),
+		anno::ui_order(4),
+		anno::in_group("01 Normal"),
+		sampler_normal()
+	]],
+	float NormalStrength = 0.0
+	[[
+		anno::display_name("Normal Strength"),
+		anno::ui_order(6),
+		anno::in_group("01 Normal")
+	]],
+	uniform texture_2d BaseColor_Map = texture_2d("./Textures/T_TestMaterial_s001_BC.png",::tex::gamma_srgb)
+	[[
+		anno::display_name("Base Color - Map"),
+		anno::ui_order(4),
+		anno::in_group("01 Base Color"),
+		sampler_color()
+	]],
+	float4 BaseColorAdjustments = float4(1.0,1.0,1.0,0.0)
+	[[
+		anno::display_name("Base Color Adjustments"),
+		anno::ui_order(8),
+		anno::in_group("01 Base Color")
+	]],
+	float4 BaseColorTint = float4(1.0,1.0,1.0,1.0)
+	[[
+		anno::display_name("Base Color Tint"),
+		anno::ui_order(6),
+		anno::in_group("01 Base Color")
+	]],
+	float4 MetallicControls = float4(1.0,0.0,1.0,1.0)
+	[[
+		anno::display_name("Metallic Controls"),
+		anno::ui_order(6),
+		anno::in_group("01 Metallic")
+	]],
+	uniform texture_2d MetallicMap = texture_2d("./Textures/T_TestMaterial_s001_MET.png",::tex::gamma_srgb)
+	[[
+		anno::display_name("Metallic Map"),
+		anno::ui_order(4),
+		anno::in_group("01 Metallic"),
+		sampler_color()
+	]],
+	float RoughnessMIN = 0.0
+	[[
+		anno::display_name("Roughness MIN"),
+		anno::ui_order(6),
+		anno::in_group("01 Roughness")
+	]],
+	float RoughnessMAX = 1.0
+	[[
+		anno::display_name("Roughness MAX"),
+		anno::ui_order(8),
+		anno::in_group("01 Roughness")
+	]],
+	uniform texture_2d RoughnessMap = texture_2d("./Textures/T_TestMaterial_s001_RGH.png",::tex::gamma_srgb)
+	[[
+		anno::display_name("Roughness Map"),
+		anno::ui_order(4),
+		anno::in_group("01 Roughness"),
+		sampler_color()
+	]],
+	uniform texture_2d OpacityMap = texture_2d("./Textures/T_TestMaterial_s001_OPC_v2_4.png",::tex::gamma_srgb)
+	[[
+		anno::display_name("Opacity Map"),
+		anno::ui_order(4),
+		anno::in_group("01 Base Color"),
+		sampler_color()
+	]],
+	uniform float IndexofRefraction = 1.52
+	[[
+		anno::display_name("Index of Refraction"),
+		anno::ui_order(32)
+	]],
+	int MaxTexCoordIndex = 3
+	[[
+		anno::hidden()
+	]])
+ = 
+	let {
+	float3 WorldPositionOffset_mdl = float3(0.0,0.0,0.0);
+	float2 CustomizedUV0_mdl = float2(state::texture_coordinate(math::min(0,MaxTexCoordIndex)).x,1.0-state::texture_coordinate(math::min(0,MaxTexCoordIndex)).y);
+
+	float2 Local0 = (float2(::object_orientation().x,::object_orientation().y) * -1.0);
+	float Local1 = math::dot(CustomizedUV0_mdl, float2(0.0,1.0));
+	float Local2 = math::dot(CustomizedUV0_mdl, float2(1.0,0.0));
+	float2 Local3 = (1.0 * float2(Local2,Local1));
+	float2 Local4 = (Local3 + float2(0.0,0.0));
+	float2 Local5 = (Local4 * TextureScale);
+	float2 Local6 = (Local5 * float2(TextureTiling_Offset.x,TextureTiling_Offset.y));
+	float2 Local7 = (Local6 + float2(TextureTiling_Offset.z,TextureTiling_Offset.w));
+	float2 Local8 = (Local0 + Local7);
+	float Local9 = (TextureRotation / 360.0);
+	float Local10 = (Local9 * 6.283185);
+	float Local11 = math::cos(Local10);
+	float Local12 = math::sin(Local10);
+	float Local13 = (Local12 * -1.0);
+	float Local14 = math::dot(Local8, float2(Local11,Local13));
+	float Local15 = math::dot(Local8, float2(Local12,Local11));
+	float2 Local16 = (float2(::object_orientation().x,::object_orientation().y) + float2(Local14,Local15));
+	float4 Local17 = ::unpack_normal_map(tex::lookup_float4(NormalMap,float2(Local16.x,1.0-Local16.y),tex::wrap_repeat,tex::wrap_repeat));
+	float2 Local18 = (float2(float3(Local17.x,Local17.y,Local17.z).x,float3(Local17.x,Local17.y,Local17.z).y) * NormalStrength);
+
+	float3 Normal_mdl = float3(Local18.x,Local18.y,float3(Local17.x,Local17.y,Local17.z).z);
+
+	float4 Local19 = tex::lookup_float4(BaseColor_Map,float2(Local16.x,1.0-Local16.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local20 = math::dot(float3(Local19.x,Local19.y,Local19.z), float3(0.3,0.59,0.11));
+	float Local21 = (1.0 - BaseColorAdjustments.x);
+	float3 Local22 = math::lerp(float3(Local19.x,Local19.y,Local19.z),float3(Local20,Local20,Local20),Local21);
+	float3 Local23 = (Local22 * BaseColorAdjustments.y);
+	float3 Local24 = (Local23 * float3(BaseColorTint.x,BaseColorTint.y,BaseColorTint.z));
+	float3 Local25 = math::pow(math::max(Local24,float3(0.000001)),float3(BaseColorAdjustments.z,BaseColorAdjustments.z,BaseColorAdjustments.z));
+	float4 Local26 = tex::lookup_float4(MetallicMap,float2(Local16.x,1.0-Local16.y),tex::wrap_repeat,tex::wrap_repeat);
+	float3 Local27 = (float3(Local26.x,Local26.y,Local26.z) * MetallicControls.z);
+	float Local28 = math::round(MetallicControls.x);
+	float3 Local29 = math::lerp(float3(MetallicControls.y,MetallicControls.y,MetallicControls.y),Local27,Local28);
+	float4 Local30 = tex::lookup_float4(RoughnessMap,float2(Local16.x,1.0-Local16.y),tex::wrap_repeat,tex::wrap_repeat);
+	float Local31 = math::lerp(RoughnessMIN,RoughnessMAX,float3(Local30.x,Local30.y,Local30.z).x);
+	float4 Local32 = tex::lookup_float4(OpacityMap,float2(Local16.x,1.0-Local16.y),tex::wrap_repeat,tex::wrap_repeat);
+
+	float3 EmissiveColor_mdl = float3(0.0,0.0,0.0);
+	float Opacity_mdl = float3(Local32.x,Local32.y,Local32.z).x;
+	float OpacityMask_mdl = (math::saturate(float3(Local32.x,Local32.y,Local32.z).x) - 1.0f / 255.0f) < 0.0f ? 0.0f : 1.0f;
+	float3 BaseColor_mdl = Local25;
+	float Metallic_mdl = Local29.x;
+	float Specular_mdl = 0.5;
+	float Roughness_mdl = Local31;
+	float3 Refraction_mdl = math::max(float3(IndexofRefraction,IndexofRefraction,IndexofRefraction), 1.0f);
+	float SurfaceThickness_mdl = 0.01;
+
+	} in
+		::OmniUe4Translucent(
+			base_color: BaseColor_mdl,
+			metallic: Metallic_mdl,
+			roughness: Roughness_mdl,
+			specular: Specular_mdl,
+			normal: Normal_mdl,
+			opacity: Opacity_mdl,
+			opacity_mask: OpacityMask_mdl,
+			emissive_color: EmissiveColor_mdl,
+			displacement: WorldPositionOffset_mdl,
+			refraction: Refraction_mdl.x,
+			two_sided: false);
