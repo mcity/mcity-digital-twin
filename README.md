@@ -6,7 +6,7 @@ Version 1.6.1
 ![image](https://github.com/user-attachments/assets/42c974c7-7ecf-4a76-ac75-044aef582ab1)
 
 ### Flythrough
-https://github.com/user-attachments/assets/cea420c1-6b66-40e1-bddf-6a5a55461f54
+https://github.com/user-attachments/assets/015a96be-20f2-46a6-8d56-70d5f74790f4
 
 
 
