@@ -73,7 +73,7 @@ Launch your packaged version of CARLA, run the `CARLA/scripts/load_mcity_digital
 
 ### MCITY TEST FACILITY DATASETS
 
-Below is an example dataset from the Mcity Test Facility. It includes 6 [Triton – 2.3 MP Sony IMX392 CMOS](https://thinklucid.com/product/triton-23-mp-imx392/?srsltid=AfmBOooNnkvhosWvZXCi-G9NkdK1845-vA-5GbgraWZNhR4th0h6TReg) on-vehicle camera sensors and 1 [RoboSense P6 Solid State Lidar](https://www.robosense.ai/en/rslidar/RS-Fusion-P6) that publishes 6 lidar topics. If you would like access to the full dataset, please email mcity-engineering@umich.edu.
+Below is an example dataset from the Mcity Test Facility. It includes 6 [Triton – 2.3 MP Sony IMX392 CMOS](https://thinklucid.com/product/triton-23-mp-imx392/?srsltid=AfmBOooNnkvhosWvZXCi-G9NkdK1845-vA-5GbgraWZNhR4th0h6TReg) on-vehicle camera sensors, 1 [RoboSense P6 Solid State Lidar](https://www.robosense.ai/en/rslidar/RS-Fusion-P6) that publishes 6 lidar topics and 1 point cloud track scan of the Mcity Facility. If you would like access to the full dataset, please email mcity-engineering@umich.edu.
 
 Example Dataset: https://drive.google.com/drive/folders/1N4zK63B4GQT-LRQyEyrU_KwLh4ULf2Uu?usp=drive_link
 
