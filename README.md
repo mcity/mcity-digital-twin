@@ -34,7 +34,7 @@ Once installed, you can run the installation commands to clone or pull the avail
 ## OMNIVERSE DIGITAL TWIN INSTALLATION INSTRUCTIONS
 Copy the `Omniverse/Collected_Mcity_NSR_v4_1_6` folder to your desired location. Open `McityMap_Main.usdc` stage in any Omniverse Blueprint, application or service and enjoy!
 
-## CARLA DIGITAL INSTALLATION INSTRUCTIONS
+## CARLA DIGITAL TWIN INSTALLATION INSTRUCTIONS
 
 Download the content for the first time.
 ```
@@ -64,6 +64,10 @@ Paste the following lines at the bottom of the `CarlaUE4/Config/DefaultGame.ini`
 ```
 
 Launch your packaged version of CARLA, run the `CARLA/scripts/load_mcity_digital_twin.py` script inside your CARLA python environment and enjoy!
+
+## PARALLEL DOMAIN DIGITAL TWIN
+The Mcity Digital Twin by Parallel Domain is a high-fidelity, photorealistic simulation of the University of Michigan’s world-class Mcity Test Facility. Created using PD Replica technology, it translates real-world track data into a pixel-accurate virtual environment designed for advanced Physical AI research. This digital twin allows developers to test the entire autonomous vehicle stack—from perception to control—under a wide range of programmable weather and lighting conditions. By bridging the gap between simulation and reality, it enables researchers to safely and at scale validate complex edge cases before moving to the physical track.
+[Request Access To The Parallel Domain Digital Twin](https://paralleldomain.com/new-mcity-digital-twin-by-parallel-domain-brings-physical-ai-research-closer-to-reality)
 
 ### KNOWN ISSUES
 #### Omniverse Digital Twin
