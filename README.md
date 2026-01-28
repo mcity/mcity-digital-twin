@@ -67,7 +67,7 @@ Launch your packaged version of CARLA, run the `CARLA/scripts/load_mcity_digital
 
 ## PARALLEL DOMAIN DIGITAL TWIN
 <a href="https://www.diffchecker.com/image-compare/qRpxUOBJ/" target="_blank" rel="noopener noreferrer">
-<img width="1636" height="1021" alt="real_vs_pd-replica" src="https://github.com/user-attachments/assets/754ee2e9-b9ea-45f6-9dc9-58652f327225" />
+<img width="1636" height="1021" alt="pdreal" src="https://github.com/user-attachments/assets/14aed962-b64a-46ca-a4cb-0748880fd808" />
 </a>
 The Mcity Digital Twin by Parallel Domain is a high-fidelity, photorealistic simulation of the University of Michigan’s world-class Mcity Test Facility. Created using PD Replica technology, it translates real-world track data into a pixel-accurate virtual environment designed for advanced Physical AI research. This digital twin allows developers to test the entire autonomous vehicle stack—from perception to control—under a wide range of programmable weather and lighting conditions. By bridging the gap between simulation and reality, it enables researchers to safely and at scale validate complex edge cases before moving to the physical track.
 [Request Access To The Parallel Domain Digital Twin](https://paralleldomain.com/new-mcity-digital-twin-by-parallel-domain-brings-physical-ai-research-closer-to-reality)
