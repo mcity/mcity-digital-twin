@@ -1,13 +1,21 @@
-McityMap 1.6.0
-October 31st, 2024
+McityMap 1.9.1
+February 23, 2026
 
-First official open-source release of McityMap content, for use with UE4Carla 0.9.15. 
+For use with Unreal Engine 4.26 and Carla 0.9.15. 
 
-Release Contents:
+New Updates & Bug Fixes
+
+* Fixed issue where all CARLA-related assets were not appearing as expected.
+	- Included traffic lights, traffic signs, foliage, and OpenDrive logic.
+* Fixed a few texturing issues on newly added assets.
+* Updated all Stop and Yield signs that require CARLA blueprints. 
+	
+
+Folder Structure
 
 This package DOES NOT include any CARLA or Unreal code or executeables, only content that can be loaded into an existing CarlaUE4 build.
 
-* McityMap_1_6_0.uasset
+* McityMap_1_9_0.uasset
 	* Dummy material used purely to quickly show the current release version.
 * McityMap_Main.umap
 	* Main map that contains all props, materials, textures, blueprints, and sublevels.
@@ -26,5 +34,8 @@ This package DOES NOT include any CARLA or Unreal code or executeables, only con
 	* McityMap_OpenDrive (dynamic)
 	* McityMap_StaticProps (static)
 	* McityMap_StaticTrafficLights (static)
-	* McityMap_StreetLights (static, hidden)
+	* McityMap_StreetLights (static)
 	* McityMap_Terrain (static)
+	* McityMap_UECableActors (static)
+	* SplashScreen (static)
+

@@ -1,4 +1,4 @@
-# McityMap 1.6.0
+# McityMap 1.9.1
 
 ## SUMMARY
 This map was developed for the University of Michigan’s Mcity testing facility in order to aid in academic research and the development of transportation technology.
@@ -19,7 +19,7 @@ For full installation instructions, visit https://github.com/mcity/mcity-digital
 
 This package DOES NOT include any CARLA or Unreal code or executeables, only content that can be loaded into an existing CarlaUE4 build.
 
-* McityMap_1_6_0.uasset
+* McityMap_1_9_1.uasset
 	* Dummy material used purely to quickly show the current release version.
 * McityMap_Main.umap
 	* Main map that contains all props, materials, textures, blueprints, and sublevels.
@@ -38,8 +38,10 @@ This package DOES NOT include any CARLA or Unreal code or executeables, only con
 	* McityMap_OpenDrive (dynamic)
 	* McityMap_StaticProps (static)
 	* McityMap_StaticTrafficLights (static)
-	* McityMap_StreetLights (static, hidden)
+	* McityMap_StreetLights (static)
 	* McityMap_Terrain (static)
+	* McityMap_UECableActors (static)
+	* SplashScreen (static)
    
 ### CONTENT SOURCE NOTES
 
@@ -56,7 +58,7 @@ https://quantumsignalai.com/
     
 ## LEGAL
 
-* Unreal® Engine. Unreal® is a trademark or registered trademark of Epic Games, Inc. in the United States of America and elsewhere. Unreal® Engine, Copyright 1998 – 2024, Epic Games, Inc. All rights reserved.
+* Unreal® Engine. Unreal® is a trademark or registered trademark of Epic Games, Inc. in the United States of America and elsewhere. Unreal® Engine, Copyright 1998 – 2025, Epic Games, Inc. All rights reserved.
 
 	https://www.unrealengine.com
 
