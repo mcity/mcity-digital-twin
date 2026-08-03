@@ -1,7 +1,6 @@
 <h1 align="center">
   Mcity Digital Twin
 </h1>
-Version 1.6.1
 
 ![image](https://github.com/user-attachments/assets/42c974c7-7ecf-4a76-ac75-044aef582ab1)
 
