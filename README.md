@@ -23,7 +23,7 @@ https://mcity.umich.edu/
 #### CARLA
 * Unreal 4.26
 * CARLA 0.9.12+
-* Ubuntu 20+ or Windows 10+
+* Ubuntu 20/22 or Windows 10+
 * [Git LFS](https://git-lfs.com/)
 * 6GB+ GPU
 
