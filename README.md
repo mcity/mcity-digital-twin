@@ -22,7 +22,7 @@ https://mcity.umich.edu/
 * An [Omniverse](https://www.nvidia.com/en-us/omniverse/) Blueprint, application or service.
 #### CARLA
 * Unreal 4.26
-* CARLA 0.9.12+
+* CARLA 0.9.12 - 0.9.16
 * Ubuntu 20/22 or Windows 10+
 * [Git LFS](https://git-lfs.com/)
 * 6GB+ GPU
